@@ -1,14 +1,3 @@
-if [ -f ~/.bash_header ]; then
-    . ~/.bash_header || return $?
-fi
-
-unset -f isGUI
-isGUI () {
-    local desktop
-    desktop=$(printenv XDG_CURRENT_DESKTOP)
-    [ -z "$desktop" ] && return 1 || return 0
-}
-
 unset -f rackspace
 rackspace () {
     deactivate &>/dev/null 
@@ -46,7 +35,3 @@ unset -f vscode
 vscode () {
     code $1
 }
-
-if [ -f ~/.bash_footer ]; then
-    . ~/.bash_footer
-fi

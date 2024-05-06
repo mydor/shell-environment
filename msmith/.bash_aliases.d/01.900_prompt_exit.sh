@@ -4,14 +4,6 @@
 # Register this callback to prepend to the prompt
 PROMPT_PRE+=("__prompt_exit_status")
 
-_hasUTF8() {
-    if [ $'\u2714' == '\u2714' ]; then
-        return 1
-    fi
-
-    return 0
-}
-
 __prompt_exit_status() {
     local CHECK XMARK SKULL SLEEP ABORT
 
