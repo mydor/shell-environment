@@ -8,8 +8,6 @@
 # for ssh logins, install and configure the libpam-umask package.
 #umask 022
 
-echo ".profile"
-
 if [ -f ~/.bash_header ]; then
     . ~/.bash_header || return $?
 fi
