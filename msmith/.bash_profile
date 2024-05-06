@@ -3,8 +3,6 @@
 #
 # If .bash_profile does NOT exist, bash will load .profile instead
 
-echo ".bash_profile"
-
 if [ -f ~/.bash_header ]; then
     . ~/.bash_header || return $?
 fi
