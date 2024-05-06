@@ -12,7 +12,7 @@ if [ -d "${BASH_SOURCE[0]}.d" ]; then
     OLDIFS="${IFS}" IFS=''
     for i in "${BASH_SOURCE[0]}.d/"*.sh; do
         echo -n "Loading alias ${COLOR_YELLOW}${i}${COLOR_RESET}: "
-        source "$i" > /tmp/$$.out 2> /tmp/$$.err && false
+        source "$i" > /tmp/$$.out 2> /tmp/$$.err
         if [ $? -gt 0 ]; then
             echo "${COLOR_RED}ERROR${COLOR_RESET}"
             for x in out err; do
