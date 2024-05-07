@@ -34,6 +34,8 @@ __prompt_command () {
 
     [ -v __DYN_PROMPT_OFF ] && return
 
+    trap "" SIGTSTP
+
     local STATUS
 
     for i in ${!PROMPT_PRE[@]}; do
@@ -45,5 +47,7 @@ __prompt_command () {
     done
 
     PS1="${STATUS}\\[\\e]0;\u@\h: \w\a\\]\${debian_chroot:+(\$debian_chroot)}\\[\\033[01;32m\\]\u@\h\\[\\033[00m\\]:\\[\\033[01;34m\\]\w\\[\\033[00m\\]\$ "
+
+    trap - SIGTSTP
 }
 

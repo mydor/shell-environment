@@ -68,7 +68,6 @@ __prompt_git () {
     local BRANCHCOLOR
     local REPOCOLOR
 
-    trap "" SIGTSTP
     __git_fetch 
 
     __git_up_to_date && REPOCOLOR="$(color -p bgt_green)" || REPOCOLOR="$(color -p fg_black bg_bgt_red)" #$(color -p bg_bgt_red)"
@@ -81,6 +80,5 @@ __prompt_git () {
 
     # Note command substitution STRIPS ALL trailing newlines
     # Adding "<EOL>" to the end of the string, will get removed by the calling function
-    trap - SIGTSTP
     __prompt_eol "\n-----------------------------\nGit Repo: ${GITREPO}\nGit Branch: ${GITBRANCH}\n"
 }
