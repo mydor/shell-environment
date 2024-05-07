@@ -32,5 +32,5 @@ __prompt_exit_status() {
     esac
     STATUS+="$(color -p reset)($PROMPT_EXIT) "
 
-    echo -n "${STATUS}"
+    echo -n "${STATUS}<EOL>"
 }

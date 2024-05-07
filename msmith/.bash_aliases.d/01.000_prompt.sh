@@ -1,6 +1,9 @@
 #!/bin/bash  # not for execution, but vim syntax hinting
 #
 
+ORIGPS1="${ORIGPS1:=${PS1}}"
+### [ -v 'ORIGPS1' ] || export ORIGPS1="${PS1}"
+
 declare -a PROMPT_PRE
 
 PROMPT_COMMAND=__prompt_command
@@ -60,10 +63,13 @@ __prompt_command() {
     ### STATUS+="$(color -p reset)($EXIT) "
 
     local STATUS
-    #STATUS+=$(__prompt_exit_status $EXIT)
 
     for i in ${!PROMPT_PRE[@]}; do
-        STATUS+=$(${PROMPT_PRE[$i]})
+        STATUS+="$(${PROMPT_PRE[$i]})"
+
+        # Since command substitution STRIPS ALL trailing newlines, have to append something after the newlines,
+        # that then is stripped of the end; "<EOL>" works and is semi-logical
+        STATUS="${STATUS%<EOL>}"
     done
 
     ### PS1=${STATUS}'[\u@\h \W]\$ ' # CentOS
