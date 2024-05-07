@@ -1,6 +1,4 @@
-if [ -f ~/.bash_header ]; then
-    . ~/.bash_header || return $?
-fi
+#!/bin/bash
 
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
@@ -121,6 +119,41 @@ if ! shopt -oq posix; then
   fi
 fi
 
-if [ -f ~/.bash_footer ]; then
-    . ~/.bash_footer 
+# Do this here since this is what actually loads the color function
+COLOR_RED=$'\e[1;31m'
+COLOR_GREEN=$'\e[1;32m'
+COLOR_YELLOW=$'\e[1;33m'
+COLOR_RESET=$'\e[0m'
+
+if [ -d "${BASH_SOURCE[0]}.d" ]; then
+    # Cannot make this a function.  Things "load", but prompt doesn't work
+
+    OLDIFS="${IFS}" IFS=""
+    for script in "${BASH_SOURCE[0]}.d"/*.bashrc; do
+        printf "Loading '${COLOR_YELLOW}${script#${HOME}/}'${COLOR_RESET}: "
+        source "$script" > /tmp/$$.out 2> /tmp/$$.err
+        [ $? -eq 0 ] \
+            && printf "${COLOR_GREEN}OK${COLOR_RESET}\n" \
+            || printf "${COLOR_RED}ERROR${COLOR_RESET}\n"
+
+        for x in out err; do
+            [ -s "/tmp/$$.$x" ] || continue
+
+            [ $x == out ] \
+                && logcolor="${COLOR_YELLOW}" \
+                || logcolor="${COLOR_RED}"
+
+            printf "------------- ${logcolor}std${x}${COLOR_RESET} -------------\n"
+            cat /tmp/$$.$x
+        done
+        unset x logcolor
+
+        rm -f /tmp/$$.{out,err}
+    done
+
+    echo
+    IFS="${OLDIFS}"
+
+    unset OLDIFS script
 fi
+unset COLOR_GREEN COLOR_RED COLOR_RESET COLOR_YELLOW
