@@ -4,7 +4,7 @@
 declare -a PROMPT_PRE  # Paranoid precaution
 
 # Register this callback to prepend to the prompt
-PROMPT_PRE+=("__prompt_exit_status")
+__prompt_register '__prompt_exit_status'
 
 __prompt_exit_status () {
     local CHECK XMARK SKULL SLEEP ABORT

@@ -8,6 +8,13 @@ PROMPT_COMMAND=__prompt_command
 __ORIGPS1="${__ORIGPS1:=${PS1}}"
 __PROMPT_EOL="<EOL>"
 
+__prompt_register () {
+    # Check if we're already processing prompt module
+    [[ ${PROMPT_PRE[@]} =~ (^|[[:space:]])"$1"($|[[:space:]]) ]] && return 0
+
+    PROMPT_PRE+=($1)
+}
+
 __prompt_eol () {
     # common interface to add defined end-of-line to string
     echo -en "${1}${__PROMPT_EOL}"

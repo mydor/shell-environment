@@ -147,7 +147,7 @@ if [ -d "${BASH_SOURCE[0]}.d" ]; then
                 && logcolor="${COLOR_YELLOW}" \
                 || logcolor="${COLOR_RED}"
 
-            printf "------------- ${logcolor}std${x}${COLOR_RESET} -------------\n"
+            printf -- "------------- ${logcolor}std${x}${COLOR_RESET} -------------\n"
             cat /tmp/$$.$x
         done
         unset x logcolor
