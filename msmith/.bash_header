@@ -26,8 +26,8 @@ then
     # If BASH_SOURCE[2] is blank, get the name of the parent process ID
     PARENT=$(printf "%s[%d]" $(ps -o comm=,pid= $PPID))
 
-    echo "${NOW:=$(date)}: ${PARENT}: executed ${ME}" # Parrent executed bash(?)
-    echo "${NOW:=$(date)}: ${ME}: sourced '${SSCRIPT}'" # current process 'sourced' 'SSCRIPT'
+    printf "${NOW:=$(date)}: ${PARENT}: executed ${ME}\n" # Parrent executed bash(?)
+    printf "${NOW:=$(date)}: ${ME}: sourced '${SSCRIPT}'\n" # current process 'sourced' 'SSCRIPT'
 
     unset PARENT 
 
@@ -35,7 +35,7 @@ else
     # Otherwise, get the calling script and line number that 'sourced' us
     THEM=$(caller 1 | awk '{print $NF":"$1}')
 
-    echo "${NOW:=$(date)}: ${ME}: '${THEM}' sourced '${SSCRIPT}'"
+    printf "${NOW:=$(date)}: ${ME}: '${THEM}' sourced '${SSCRIPT}'\n"
 
     unset THEM
 

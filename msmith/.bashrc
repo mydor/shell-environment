@@ -155,7 +155,7 @@ if [ -d "${BASH_SOURCE[0]}.d" ]; then
         rm -f /tmp/$$.{out,err}
     done
 
-    echo
+    printf "\n"
     IFS="${OLDIFS}"
 
     unset OLDIFS script

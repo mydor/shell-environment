@@ -1,6 +1,5 @@
 unset -f isGUI
 isGUI () {
-    local desktop
-    desktop=$(printenv XDG_CURRENT_DESKTOP)
-    [ -z "$desktop" ] && return 1 || return 0
+    [[ -n "${XDG_CURRENT_DESKTOP}" ]] || return 1
+    return 0
 }

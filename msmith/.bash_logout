@@ -1,5 +1,5 @@
 # ~/.bash_logout: executed by bash(1) when login shell exits.
-echo "$(date) .bash_logout" >>~/.bash_log
+printf "$(date) .bash_logout\n" >>~/.bash_log
 
 # when leaving the console clear the screen to increase privacy
 

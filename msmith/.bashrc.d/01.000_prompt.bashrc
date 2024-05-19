@@ -17,7 +17,7 @@ __prompt_register () {
 
 __prompt_eol () {
     # common interface to add defined end-of-line to string
-    echo -en "${1}${__PROMPT_EOL}"
+    printf "${1}${__PROMPT_EOL}"
 }
 
 prompt_on () {
@@ -37,6 +37,7 @@ __prompt_command () {
     trap "" SIGTSTP
 
     local STATUS
+    local i
 
     for i in ${!PROMPT_PRE[@]}; do
         STATUS+="$(${PROMPT_PRE[$i]})"

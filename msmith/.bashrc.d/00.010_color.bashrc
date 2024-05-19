@@ -1,56 +1,19 @@
 #!/bin/bash
 
-### COLOR_RESET=$'\033[0m'
-### COLOR_NOBOLD=$'\033[21m'
-### COLOR_NODIM=$'\033[22m'
-### COLOR_NOUNDERLINE=$'\033[24m'
-### COLOR_NOBLINK=$'\033[25m'
-### COLOR_NOINVERSE=$'\033[27m'
-### COLOR_NOHIDDEN=$'\033[28m'
-### 
-### COLOR_FBLACK=$'\033[30m'
-### COLOR_FRED=$'\033[31m'
-### COLOR_FGREEN=$'\033[32m'
-### COLOR_FYELLOW=$'\033[33m'
-### COLOR_FBLUE=$'\033[34m'
-### COLOR_FPURPLE=$'\033[35m'
-### COLOR_FCYAN=$'\033[36m'
-### COLOR_FGRAY=$'\033[37m'
-### COLOR_FNORMAL=$'\033[39m'
-### 
-### COLOR_BBLACK=$'\033[0;40m'
-### COLOR_BRED=$'\033[0;41m'
-### COLOR_BGREEN=$'\033[0;42m'
-### COLOR_BYELLOW=$'\033[0;43m'
-### COLOR_BBLUE=$'\033[0;44m'
-### COLOR_BPURPLE=$'\033[0;45m'
-### COLOR_BCYAN=$'\033[0;46m'
-### COLOR_BGRAY=$'\033[0;47m'
-### COLOR_BNORMAL=$'\033[49m'
-### 
-### COLOR_BOLD=$'\033[1m'
-### COLOR_DIM=$'\033[2m'
-### COLOR_UNDERLINE=$'\033[4m'
-### COLOR_BLINK=$'\033[5m'
-### COLOR_INVERSE=$'\033[7m'
-### COLOR_HIDDEN=$'\033[8m'
-
 __color_help () {
-    echo "color [-p] [[fg_ | bg_] [bgt_][ <color> ] ...] [[-]<decorator> ...] [reset]"
-    echo
-    echo "    -p Enable non-printable escaping for prompt use;   \[ ... \]"
-    echo
-    echo "    Color can be prepended with"
-    echo "        fg_ for a foreground <color>    * default"
-    echo "        bg_ for a background <color>"
-    echo "        bgt_ for a bright <color>"
-    echo 
-    echo "    Decorators can be prepended with a "-" to disable the effect*"
-    echo "       * NOTE!!!: -bold and -dunderline DO NOT work right.  The only way"
-    echo "                  to disable is to <reset> which clears all colors and decorators"
-    echo "        Note: The code for -bold causes the dunderline"
-    echo "        Note: There is no code for -dundereline"
-    echo
+    printf "color [-p] [[fg_ | bg_] [bgt_][ <color> ] ...] [[-]<decorator> ...] [reset]\n\n"
+    printf "    -p Enable non-printable escaping for prompt use;   \[ ... \]\n\n"
+
+    printf "    Color can be prepended with\n"
+    printf "        fg_ for a foreground <color>    * default\n"
+    printf "        bg_ for a background <color>\n"
+    printf "        bgt_ for a bright <color>\n\n"
+
+    printf "    Decorators can be prepended with a '-' to disable the effect*\n"
+    printf "       * NOTE!!!: -bold and -dunderline DO NOT work right.  The only way\n"
+    printf "                  to disable is to <reset> which clears all colors and decorators\n"
+    printf "        Note: The code for -bold causes the dunderline\n"
+    printf "        Note: There is no code for -dundereline\n\n"
 
     declare _bright
     declare _color
@@ -77,15 +40,11 @@ __color_help () {
     printf "\n"
 
     declare _decorator
-    declare _prefix
 
     for _decorator in bold dim underline dunderline blink inverse hidden strike; do
-        [ "$_decorator" == "bold" ] \
-            && _prefix="<decorator> -" \
-            || _prefix="            -"
 
-        printf "%s\n" "    $_prefix $(color $_decorator)$_decorator$(color -$_decorator) -$_decorator"
-    done
+        printf "%s\n" "$(color $_decorator)$_decorator$(color -$_decorator) -$_decorator"
+    done | column -t | sed 's/^/                - /; s/           \( - [^[:space:]]*bold\)/<decorator>\1/'
     printf "\n"
 
     return 1
@@ -118,10 +77,11 @@ color () {
             && fgbg=$((fgbg + 6))
 
         case $arg in
-            -p)
+            -p|--prompt)
                 non_print=true ;;
             reset)
                 code="0" ;;
+
             *bold)
                 [[ $fmt -eq 2 ]] \
                     && code="0" \
@@ -146,6 +106,7 @@ color () {
                 code="${fmt}9" ;;
             *black)
                 code="${fgbg}0" ;;
+
             *red)
                 code="${fgbg}1" ;;
             *green)
@@ -169,9 +130,9 @@ color () {
 
     [ -z "${code}" ] && return 0
 
-    [ "$non_print" == true ] && echo -en $"\["
-    echo -en $'\033'"[${code}m"
-    [ "$non_print" == true ] && echo -en $"\]"
+    [ "$non_print" == true ] && printf $"\["
+    printf $'\033'"[${code}m"
+    [ "$non_print" == true ] && printf $"\]"
 }
 
 __color_join () {

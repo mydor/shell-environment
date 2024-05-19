@@ -3,7 +3,7 @@
 
 ME=${BASH_SOURCE[1]} # This should be the script that called .bash_footer, BASH_SOURCE[0] /IS/ .bash_footer
 
-echo "$(date): $(printf "%s[%d]" $(ps -o comm=,pid= $$)): Closing '$ME'" >> ~/.bash_log
+printf "$(date): $(printf "%s[%d]" $(ps -o comm=,pid= $$)): Closing '$ME'\n" >> ~/.bash_log
 
 # If we are the original source, clean up our tracking variables
 if [ "$FIRST" == "$ME" ]
