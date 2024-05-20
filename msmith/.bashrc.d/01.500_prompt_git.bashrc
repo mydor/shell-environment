@@ -64,7 +64,7 @@ __git_ahead () {
     # Don't assign on local, as it messes up the exit code check
     status=$(git status | grep -s '^Your branch is ahead') || return 1
 
-    sed 's/^.* by \([[:digit:]]*\) commits.*$/\1/' <<<$status
+    sed 's/^.* by \([[:digit:]]*\) commit.*$/\1/' <<<$status
 }
 
 __git_behind () {
@@ -74,7 +74,7 @@ __git_behind () {
     # Don't assign on local, as it messes up the exit code check
     status=$(git status | grep -s '^Your branch is behind') || return 1
 
-    sed 's/^.* by \([[:digit:]]*\) commits.*$/\1/' <<<$status
+    sed 's/^.* by \([[:digit:]]*\) commit.*$/\1/' <<<$status
 }
 
 __git_stash () {
