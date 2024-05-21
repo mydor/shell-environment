@@ -78,7 +78,12 @@ __git_behind () {
 }
 
 __git_stash () {
-    git stash list
+    local stashes=$(git stash list | wc -l)
+
+    [ $stashes -lt 1 ] && return 1
+
+    printf "$stashes"
+    return 0
 }
 
 __git_diff () {
@@ -117,6 +122,7 @@ __prompt_git () {
     # Exit code becomes that of 'local` not the sub-shell
     gitbehind=$(__git_behind) && GITSTATUS+=("$(color -p bgt_red)behind(${gitbehind})$(color -p reset)")
     gitahead=$(__git_ahead)   && GITSTATUS+=("$(color -p bgt_yellow)ahead(${gitahead})$(color -p reset)")
+    gitstash=$(__git_stash)   && GITSTATUS+=("$(color -p bgt_blue)stash(${gitstash})$(color -p reset)")
 
     # Note command substitution STRIPS ALL trailing newlines
     # Adding "<EOL>" to the end of the string, will get removed by the calling function
