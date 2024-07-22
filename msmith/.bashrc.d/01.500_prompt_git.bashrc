@@ -124,6 +124,10 @@ __prompt_git () {
     gitahead=$(__git_ahead)   && GITSTATUS+=("$(color -p bgt_yellow)ahead(${gitahead})$(color -p reset)")
     gitstash=$(__git_stash)   && GITSTATUS+=("$(color -p bgt_blue)stash(${gitstash})$(color -p reset)")
 
+    if [ -z "${GITSTATUS}" ]; then
+	GITSTATUS+=("$(color -p bgt_green)OK$(color -p reset)")
+    fi
+
     # Note command substitution STRIPS ALL trailing newlines
     # Adding "<EOL>" to the end of the string, will get removed by the calling function
     __prompt_eol "\n-----------------------------\nGit Repo: ${GITREPO}\nGit Branch: ${GITBRANCH}\nGit Status: ${GITSTATUS[*]}\n"
